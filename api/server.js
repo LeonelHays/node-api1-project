@@ -1,3 +1,22 @@
 // BUILD YOUR SERVER HERE
+const express = require('express')
+const Users = require('./users/model')
 
-module.exports = {}; // EXPORT YOUR SERVER instead of {}
+const server = express()
+
+server.use(express.json())
+
+server.get('/', (req, res) => {
+    res.json({ message: 'Hello there! - Obiwan Kenobi' })
+})
+
+server.get('/api/users', async (req, res) => {
+    try{
+        const users = await Users.find()
+        res.status(200).json(users)
+    }catch(err){
+        res.status(500).json({ mssage: err.message })
+    }
+})
+
+module.exports = server; // EXPORT YOUR SERVER instead of {}
